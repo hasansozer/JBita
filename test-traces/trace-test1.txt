@@ -1,0 +1,17 @@
+0: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@3ecd23d9,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+1: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@569cfc36,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+2: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@43bd930a,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+3: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@33723e30,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+4: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@64f6106c,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+5: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@5b1c7a86,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+6: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@2c386d9,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+7: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@762d4f0f,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+8: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@a0e10ca,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/producer -> 1, akka://BoundedBuffer/deadLetters -> 1),false,false>
+9: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@229a5f68,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+10: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@4cc1265f,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/producer -> 1, akka://BoundedBuffer/deadLetters -> 1),false,false>
+11: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@51bc52d3,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/buffer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>
+12: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@6bd44757,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/consumer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>
+13: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@38807c8c,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+14: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@277d4c22,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
+15: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@7d8790fb,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/buffer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>
+16: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@3885012f,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/consumer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>

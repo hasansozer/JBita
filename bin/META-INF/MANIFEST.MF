@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: akka-actor
+Implementation-Version: 2.0.2
+Specification-Vendor: Typesafe Inc.
+Implementation-Vendor-Id: com.typesafe.akka
+Specification-Title: akka-actor
+Specification-Version: 2.0.2
+Implementation-Vendor: Typesafe Inc.
+
