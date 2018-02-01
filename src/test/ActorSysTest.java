@@ -23,11 +23,13 @@ import java.io.File;
 @RunWith(Parameterized.class)
 public class ActorSysTest {
 
-	protected int index;
 	protected static final int MAX_TEST_COUNT = 5;
 	protected static final String TRACES_FOLDER = "./test-traces/";
 	protected static final String MSGS_FOLDER = "./test-msgs/";
 	protected static boolean testPassed[] = new boolean[MAX_TEST_COUNT];
+	
+	protected int index;
+	protected static boolean testFailed; 
 	
 	@Parameters  
     public static Collection<Object[]> generateParams() {  
@@ -48,6 +50,7 @@ public class ActorSysTest {
 		@Override
 	    protected void failed(Throwable e, Description description) {
 			testPassed[index] = false;
+			testFailed = true;
         }
 	 
 		@Override
@@ -58,13 +61,19 @@ public class ActorSysTest {
 	
 	@BeforeClass
     public static void setUpClass() {
-        // before everything
+		testFailed = false;
     }
  
     @AfterClass
     public static void tearDownClass() {
     	printTestResults();
     	measureCoverage();
+    	
+    	testFailed = true;
+    	testPassed[MAX_TEST_COUNT-1] = false;
+    	
+    	if(testFailed)
+    		TestResultAnalyzer.analyzeMessages(MSGS_FOLDER, testPassed);
     }
 	    
 	@Rule
