@@ -72,8 +72,9 @@ public class ActorSysTest {
     	testFailed = true;
     	testPassed[MAX_TEST_COUNT-1] = false;
     	
-    	if(testFailed)
+    	if(testFailed) {
     		TestResultAnalyzer.analyzeMessages(MSGS_FOLDER, testPassed);
+    	}
     }
 	    
 	@Rule
