@@ -37,7 +37,7 @@ public class RandomTest {
 	private int index = 0;
 	private int timeoutInSecs = 30;
 	
-	private static final int TEST_COUNT = 5;
+	private static final int TEST_COUNT = 4;
 	private static final String TRACES_FOLDER = "./test-traces/";
 	private static final String MSGS_FOLDER = "./test-msgs/";
 	

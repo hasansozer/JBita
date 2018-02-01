@@ -1,17 +1,4 @@
-0: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@17211155,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-1: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@b3d7190,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-2: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@5fdba6f9,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-3: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@10d59286,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-4: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@fe18270,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-5: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@69c556e7,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-6: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@15ac39f6,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-7: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@541e022f,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-8: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@5ad9e6dc,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-9: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@4adbac7a,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/producer -> 1, akka://BoundedBuffer/deadLetters -> 1),false,false>
-10: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@669946ad,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/producer -> 1, akka://BoundedBuffer/deadLetters -> 1),false,false>
-11: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@6346859b,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/buffer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>
-12: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@4ee9632,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/consumer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>
-13: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@7c656c,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-14: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@9eaa9a8,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/deadLetters -> 1),false,false>
-15: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@51df0099,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/buffer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>
-16: <schedule.LogicalActor@762e67ba,schedule.LogicalMessage@72f0a91,schedule.LogicalActor@762e67ba,Map(akka://BoundedBuffer/user/consumer -> 1, akka://BoundedBuffer/deadLetters -> 1),true,false>
+-258621993
+-1874496441
+-258621993
+-1874496441
