@@ -1,3 +1,4 @@
+@startuml
 "$a" -> "system": "akka.actor.CreateChild"
 "$b" -> "log1-Logging$DefaultLogger": "akka.event.Logging$InitializeLogger"
 "$c" -> "user": "akka.actor.CreateChild"
@@ -15,3 +16,4 @@
 "$i" -> "buffer": "sut.BoundedBuffer$Get"
 "buffer" -> "$i": "sut.BoundedBuffer$Element"
 "consumer" -> "$h": "java.lang.String"
+@enduml
