@@ -37,7 +37,7 @@ public class RandomTest {
 	private int index = 0;
 	private int timeoutInSecs = 30;
 	
-	private static final int TEST_COUNT = 10;
+	private static final int TEST_COUNT = 5;
 	private static final String TRACES_FOLDER = "./test-traces/";
 	private static final String MSGS_FOLDER = "./test-msgs/";
 	
@@ -64,7 +64,8 @@ public class RandomTest {
         	System.out.println("Test Case #" + index + " ended..."); 
         	Scheduler.finish(TRACES_FOLDER + "trace-test" + index + ".txt");
         	Scheduler.logger.outputMessages(MSGS_FOLDER + "trace-test" + index + ".txt");
-        	/* Coverage measurement
+        	
+        	// Coverage measurement
         	if(index == TEST_COUNT) {
         		File folder = new File(TRACES_FOLDER);
             	File[] listOfFiles = folder.listFiles();
@@ -74,7 +75,7 @@ public class RandomTest {
             	Criterion cov = new PRCriterion("PairOfReceives");
             	cov.measureCoverage(traceFiles);
         	}
-        	*/
+        	
         }
     };
 	

@@ -21,8 +21,13 @@ public class EventID {
 		return ("" + creatorIndex + "" + seqNum).hashCode();
 	}
 
-	private static String eventIDPattern = "(.*EventID\\()(-?\\d*)(,)(-?\\d*)(\\)*)";
+	private static String eventIDPattern = "(EventID\\()(-?\\d*)(,)(-?\\d*)(\\)*)";
 			
+	@Override
+	public String toString() {		
+		return "EventID(" + creatorIndex + "," + seqNum + ")";
+	}
+
 	public static EventID parse(String eventIDStr) {
 		// _, index, _, seq, _
 	    // EventID.parse(eventIDStr), objectType
@@ -34,3 +39,4 @@ public class EventID {
         return null;
 	}
 }
+ 

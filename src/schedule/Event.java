@@ -43,8 +43,10 @@ public class Event {
 	
 	public ConcurrentHashMap<String,Integer> receiversSeqNumMap = new ConcurrentHashMap<String,Integer>();
 	public int hashCodeInTrace = -1;
-	
+		
+	//private static final String EventPattern = "(\\d+)(: <)(.*LogicalActor.*|null)(,)(.*LogicalMessage.*)(,)(.*LogicalActor.*|null)(,)(Map\\(.*\\)|null)(,)(true|false)(,)(true|false)(>.*)";
 	private static final String EventPattern = "(\\d+)(: <)(LogicalActor\\(.*\\)|null)(,)(LogicalMessage\\(.*\\)\\))(,)(LogicalActor\\(.*\\)|null)(,)(Map\\(.*\\)|null)(,)(true|false)(,)(true|false)(>.*)";
+	
 	
 	public Event(int index, 
 				Object message, 
@@ -119,6 +121,7 @@ public class Event {
         }
         
 		System.out.println("**** ERROR! Could not parse event: " + eventStr);
+		System.out.println(EventPattern);
         return null;
 	}
 

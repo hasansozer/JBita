@@ -11,6 +11,11 @@ public class LogicalActor {
 	public String objectType = "";
 	public EventID creatorID = null;
 	
+	@Override
+	public String toString() {
+		return "LogicalActor(" + creatorID + "," + objectType + ")";
+	}
+
 	private static final String LogicalActorPattern = "(.*LogicalActor\\()(EventID\\(.*\\))(,)(.*)(\\))";
 	
 	public LogicalActor(EventID creatorID, String actorObjectClass) {
@@ -32,7 +37,7 @@ public class LogicalActor {
 		return creatorID;
 	}
 	
-	private static String logicalActorPattern = "(.*LogicalActor\\()(EventID\\(.*\\))(,)(.*)(\\))";
+	private static String logicalActorPattern = "(LogicalActor\\()(EventID\\(.*\\))(,)(.*)(\\))";
 
 	public static LogicalActor parse(String actorIDStr) {
 		
@@ -50,13 +55,14 @@ public class LogicalActor {
 		Pattern pattern = Pattern.compile(logicalActorPattern);
 		Matcher matcher = pattern.matcher(ActorIDStr);
 		if (matcher.matches()){
+
 			// _, eventIDStr, _, objectType, _
 			EventID creatorID = EventID.parse(matcher.group(2));
 			int parentHashCode = creatorID.creatorIndex;
 			if (creatorID.creatorIndex >= 0)
 				parentHashCode = traceHashCodes[creatorID.creatorIndex]; 
 	        return (matcher.group(4) + parentHashCode + "" + creatorID.seqNum).hashCode();
-		} 
+		}
         return -1;
 	}
 }

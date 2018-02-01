@@ -32,9 +32,12 @@ public class PRCriterion extends Criterion {
 	@Override
 	public int measureCoverage(ArrayList<String> traceFiles) {
 		
-		System.out.println("Measuring the coverage for the " + name + "criterion...");
-	    
+		System.out.println("---Measuring the coverage for the " + name + "criterion...");
+		System.out.println("---Total # of trace files: " + traceFiles.size());
+		
 	    groupAndWriteReceivesBasedOnReceiver(traceFiles);
+	    
+	    System.out.println("---Total # of actors: " + actorFiles.size());
 
 	    int totalCoverageValue = 0;
 	    HashMap<Integer,Integer> intervalCoverage = new HashMap<Integer,Integer>();
@@ -56,7 +59,7 @@ public class PRCriterion extends Criterion {
 	  	      	notCoveredPairs.clear();
 	  	      	int traceCounter = 0;
 	  	      	
-	  	      	for(String file: files) {
+	  	      	for(String file: files) {	  	      		
 	  	      		traceCounter++;
 	  	      		ArrayList<String> hashLines = new ArrayList<String>();
 	  	      		BufferedReader br = new BufferedReader(new FileReader(file));
@@ -104,7 +107,10 @@ public class PRCriterion extends Criterion {
 		try {
 			
 			for(String traceFile: traceFiles) {
-				Trace trace = Trace.parse(traceFile, false);
+				
+  	      		//System.out.println("Analayzing trace file:" + traceFile);
+	  	      	
+				Trace trace = Trace.parse(traceFile, true);
 				ArrayList<Integer> traceHashCodes = new ArrayList<Integer>();
 				
 				HashMap<Integer,FileWriter> actorsToWriterMap = new HashMap<Integer, FileWriter>();
@@ -112,10 +118,11 @@ public class PRCriterion extends Criterion {
 				for (int i = 0; i < trace.size(); i++) {
 					Event event = trace.getEvent(i);
 					traceHashCodes.add(event.hashCodeInTrace);
+					
 					Integer[] hashCodeArray = new Integer[traceHashCodes.size()];
 					hashCodeArray = traceHashCodes.toArray(hashCodeArray);
 					int actorHash = LogicalActor.getHashCode(event.receiverIDStr, hashCodeArray);
-					
+		
 					FileWriter writer = null;
 					if(actorsToWriterMap.containsKey(actorHash))
 						writer = actorsToWriterMap.get(actorHash);

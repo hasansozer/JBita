@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class VectorClock {
 	
-	private static final String VCMapPattern = "(.*Map\\()(.*)(\\).*)";
+	private static final String VCMapPattern = "(Map\\()(.*)(\\).*)";
 	private static final String VCPattern = "(.*)( -> )(\\d*)(.*)";
 
 	public ConcurrentHashMap<String, Integer> vc = new ConcurrentHashMap<String, Integer>();

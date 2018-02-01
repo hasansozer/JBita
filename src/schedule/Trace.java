@@ -19,6 +19,7 @@ public class Trace {
 	private List<Event> completeTrace = Collections.synchronizedList(new ArrayList<Event>());
 	private Set<Integer> outOfScheduleIndexes = Collections.synchronizedSet(new HashSet<Integer>());
 	private ConcurrentHashMap<String, Integer> timeoutSeqMap = new ConcurrentHashMap<String, Integer>();
+	private HashSet<Event> mockActorsEvents = new HashSet<Event>();
 	
 	private int isIdleCount = 0;
 	private int relaxedIndex = -1;
@@ -39,12 +40,26 @@ public class Trace {
 		return completeTrace.size();
 	}
 
-	public Event getEvent(Integer integer) {
-		return new Event(-1, "", 
-				ActorAnalysis.getSystemGuardianActorPath(), 
-				ActorAnalysis.getSystemGuardianActorPath(), 
-				null, false);
+	public Event getEvent(Integer index) {
+		if(index < 0) {
+			if(mockActorsEvents.size() == 0)
+				initializeMockActorsEvents();
+			for(Event event: mockActorsEvents) {
+				if(event.index == index)
+					return event;
+			}
+		}
+		if(index >= 0 && index < completeTrace.size())
+			return completeTrace.get(index);
+		else
+			return null;
 	}
+	
+	private void initializeMockActorsEvents() {
+	    mockActorsEvents.add(Event.rootEvent);
+	    mockActorsEvents.add(Event.schedulerEvent);
+	    mockActorsEvents.add(Event.httpEvent);
+	  }
 
 	public int getScheduleIndex(int traceIndex) {
 		int scheduleIndex = traceIndex;
@@ -116,7 +131,7 @@ public class Trace {
 		completeTrace.clear();
 	    outOfScheduleIndexes.clear();
 	    relaxedIndex = -1;
-	    //mockActorsEvents.clear();
+	    mockActorsEvents.clear();
 		isIdleCount = 0;
 		timeoutSeqMap.clear();
 	}

@@ -244,8 +244,8 @@ public class Scheduler {
 		if ((actorRef instanceof PromiseActorRef) 
 				&& promiseToParentMap.contains(actorRef))
 			return promiseToParentMap.get(actorRef);
-		else
-		    return actorRef.path().toString();
+		else 
+			return actorRef.path().toString();
 	}
 
 	private static void sendTimeoutIfNeeded() {
@@ -393,11 +393,11 @@ public class Scheduler {
 
 	        String senderActorIDStr = LogicalActor.DeadLetterID.toString();
 	        if (actorPathToLogicalIDMap.get(senderActorPath) != null)
-	            actorPathToLogicalIDMap.get(senderActorPath).toString();
+	        	senderActorIDStr = actorPathToLogicalIDMap.get(senderActorPath).toString();
 
 	        String receiverActorIDStr = LogicalActor.DeadLetterID.toString();
 	        if (actorPathToLogicalIDMap.get(receiverActorPath) != null)
-	            actorPathToLogicalIDMap.get(receiverActorPath).toString();
+	        	receiverActorIDStr = actorPathToLogicalIDMap.get(receiverActorPath).toString();
 
 	        Pair<Boolean, Boolean> inSchedule_cmh = removeFromHeadOfSchedule(logicalMessage, receiverActorIDStr);
 	        boolean outOfSchedule = !inSchedule_cmh.getLeft();
@@ -412,6 +412,7 @@ public class Scheduler {
 	        }
 
 	        int newIndex = trace.addEvent(logicalMessage, senderActorIDStr, receiverActorIDStr, isPromiseResponse, outOfSchedule, newVC, inSchedule_cmh.getRight());
+
 	        currentReceives.put(receiverActorPath, newIndex);
 	   }
 	   logger.logMessage(senderActorPath, receiverActorPath, logicalMessage.message.getClass().toString());

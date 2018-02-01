@@ -32,6 +32,11 @@ public class LogicalMessage {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "LogicalMessage(" + message + "," + creatorID + ","+ vc + ")";
+	}
+
 	public static int getHashCode(String logicalMessageString, Integer[] traceHashCodes) {
 		Pattern pattern = Pattern.compile(LogicalMessagePattern);
 		Matcher matcher = pattern.matcher(logicalMessageString);
