@@ -1,10 +1,13 @@
 package test;
 
+import util.Pair;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class TestResultAnalyzer {
@@ -12,74 +15,133 @@ public class TestResultAnalyzer {
 	private static final String UML_SEQ_DIAG_FILENAME = "umlSeqDiag";
 	private static final String PLANTUML_COMMAND = "java -jar ./lib/plantuml.jar ./" + UML_SEQ_DIAG_FILENAME + ".txt";
 	
-	private static ArrayList<String> traceFiles = new ArrayList<String>();
-	private static ArrayList<String> failedMsgSequence = null;
+	private static int testCount = 0;
+	private static int failedTestIndex = -1;
+	private static ArrayList<Boolean> testResults = new ArrayList<Boolean>();
+	private static ArrayList<ArrayList<String>> msgSequences = new ArrayList<ArrayList<String>>();
+	private static ArrayList<Pair<Integer,Integer>> traceSimilarities = new ArrayList<Pair<Integer,Integer>>();
 	
-	public static void analyzeMessages(String msgsFolder, boolean []testResults) {
+	public static void analyzeMessages(String msgsFolder, boolean []tests) {
 		
-		System.out.println("Analyzing failed test traces...");
-		
-		readMessageSequencesFromFile(msgsFolder, testResults);
-    	if(failedMsgSequence == null) {
+		testCount = tests.length;
+		for(int i=0; i < testCount; i++) {
+			testResults.add(tests[i]);
+			if(!tests[i]) 
+				failedTestIndex = i;
+		}
+		if(failedTestIndex < 0) {
     		System.out.println("No failed test found...");
     		return;
     	}
+		
+		System.out.println("Analyzing failed test traces...");
+		
+		readMessageSequencesFromFile(msgsFolder);
     	
-    	generateSequenceDiagram(getSlicedMsgSequence(testResults));
+    	System.out.println("Calculating similarity of traces...");
+    	
+    	calculateTraceSimilarity();
+    	
+    	if(traceSimilarities.get(0).getRight() == msgSequences.get(failedTestIndex).size()) {
+    		System.out.println("Execution trace # " 
+    							+ traceSimilarities.get(0).getLeft()
+    							+ " is exactly the same as the failed execution trace...");
+    		return;
+    	}
+    	
+    	System.out.println("Slicing and depicting the failed execution trace...");
+    	
+    	generateSequenceDiagram(getSlicedMsgSequence());
+    	
 		displaySequenceDiagram();
 	}
 	
-	private static void readMessageSequencesFromFile(String folderName, boolean []results) {
+	private static void calculateTraceSimilarity() {
+		ArrayList<String> failedTrace = msgSequences.get(failedTestIndex);
+		
+		for(int i = 0; i < testCount; i++) {
+			if(i != failedTestIndex) {
+				ArrayList<String> comparedTrace = msgSequences.get(i);
+				if(failedTrace.size() == comparedTrace.size()) {
+					int count = 0;
+					for(int j = 0; j < failedTrace.size(); j++) 
+						if(failedTrace.get(j).compareTo(comparedTrace.get(j))== 0)
+							count++;	
+					traceSimilarities.add(new Pair<Integer, Integer>(i,count));
+				} else
+					System.out.println("Message missing with respect to trace # " + i + "...");
+			}
+		}
+		traceSimilarities.sort(new Comparator<Pair<Integer,Integer>>() {
+				public int compare(Pair<Integer,Integer> p1, Pair<Integer,Integer> p2) {
+				   return p2.getRight() - p1.getRight();
+			   }
+			});
+		//for(Pair<Integer,Integer> pair : traceSimilarities)
+		//	System.out.println(pair.getLeft() + ": " + pair.getRight());
+	}
+
+	private static void readMessageSequencesFromFile(String folderName) {
 		File folder = new File(folderName);
     	File[] listOfFiles = folder.listFiles();
     	
-    	if(listOfFiles.length != results.length) {
+    	if(listOfFiles.length != testCount) {
     		System.out.println("Error: The number of trace files do not match the number of tests!");
     		return;
     	}
     	
-    	for(int i = 0; i < listOfFiles.length; i++) {
-    		traceFiles.add(listOfFiles[i].getPath());
-    		if(!results[i]) 
-    			failedMsgSequence = getMsgSequence(traceFiles.get(i));
-    	}
+    	for(int i = 0; i < testCount; i++)
+    		msgSequences.add(getMsgSequence(listOfFiles[i].getPath()));
 	}
+
+	private static ArrayList<String> getSlicedMsgSequence() {
+		ArrayList<String> slicedTrace = new ArrayList<String>();
+		ArrayList<String> failedTrace = msgSequences.get(failedTestIndex);
+		ArrayList<String> comparedTrace = msgSequences.get(traceSimilarities.get(0).getLeft());
+		
+		for(int i = 0; i < failedTrace.size(); i++)
+			if(comparedTrace.get(i).compareTo(failedTrace.get(i)) != 0) 
+					slicedTrace.add(failedTrace.get(i));
 	
-	private static ArrayList<String> getSlicedMsgSequence(boolean []results) {
+		return slicedTrace;
+	}
+/* v1	
+	private static ArrayList<String> getSlicedMsgSequence() {
 		ArrayList<String> slicedTrace = new ArrayList<String>();
 		
+		ArrayList<String> failedTrace = msgSequences.get(failedTestIndex);
+		int msgCount = failedTrace.size();
 		int traceIndex = 0;
 		int msgIndex = 0;
 		
-		while (msgIndex < failedMsgSequence.size() && traceIndex < traceFiles.size()) {
+		while (msgIndex < msgCount && traceIndex < testCount) {
 			
-			while(!results[traceIndex])
+			while(!testResults.get(traceIndex))
 				traceIndex++;
 			
-			if(traceIndex < traceFiles.size()) {
+			if(traceIndex < testCount) {
 				
-				ArrayList<String> comparedTrace = getMsgSequence(traceFiles.get(traceIndex));
+				ArrayList<String> comparedTrace = msgSequences.get(traceIndex);
 				
-				while(msgIndex < failedMsgSequence.size()
-					&& comparedTrace.get(msgIndex).compareTo(failedMsgSequence.get(msgIndex)) == 0)
+				while(msgIndex < msgCount
+					&& comparedTrace.get(msgIndex).compareTo(failedTrace.get(msgIndex)) == 0)
 					msgIndex++;
 				
-				while(msgIndex < failedMsgSequence.size()
-					&& comparedTrace.get(msgIndex).compareTo(failedMsgSequence.get(msgIndex)) != 0) {
-					slicedTrace.add(failedMsgSequence.get(msgIndex));
+				while(msgIndex < msgCount
+					&& comparedTrace.get(msgIndex).compareTo(failedTrace.get(msgIndex)) != 0) {
+					slicedTrace.add(failedTrace.get(msgIndex));
 					msgIndex++;
 				}
 			} 
 			
-			while(msgIndex < failedMsgSequence.size()) {
-				slicedTrace.add(failedMsgSequence.get(msgIndex));
+			while(msgIndex < msgCount) {
+				slicedTrace.add(failedTrace.get(msgIndex));
 				msgIndex++;
 			}	
 		}
-		
 		return slicedTrace;
 	}
-
+*/
 	private static void displaySequenceDiagram() {
 		try {
 			Process p = Runtime.getRuntime().exec(PLANTUML_COMMAND);

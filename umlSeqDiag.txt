@@ -1,14 +1,4 @@
 @startuml
-"deadLetters" -> "producer": "sut.BoundedBuffer$Produce"
-"$f" -> "consumer": "sut.BoundedBuffer$Consume"
-"deadLetters" -> "producer": "sut.BoundedBuffer$Produce"
+"producer" -> "buffer": "sut.BoundedBuffer$Put"
 "$g" -> "buffer": "sut.BoundedBuffer$Get"
-"producer" -> "buffer": "sut.BoundedBuffer$Put"
-"producer" -> "buffer": "sut.BoundedBuffer$Put"
-"buffer" -> "$g": "sut.BoundedBuffer$Element"
-"consumer" -> "$f": "java.lang.String"
-"$h" -> "consumer": "sut.BoundedBuffer$Consume"
-"$i" -> "buffer": "sut.BoundedBuffer$Get"
-"buffer" -> "$i": "sut.BoundedBuffer$Element"
-"consumer" -> "$h": "java.lang.String"
 @enduml
