@@ -1,4 +1,4 @@
 @startuml
-"producer" -> "buffer": "sut.BoundedBuffer$Put"
-"$g" -> "buffer": "sut.BoundedBuffer$Get"
+"deadLetters" -> "producer": "sut.BoundedBuffer$Produce"
+"$f" -> "consumer": "sut.BoundedBuffer$Consume"
 @enduml

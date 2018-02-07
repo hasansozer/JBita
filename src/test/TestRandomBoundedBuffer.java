@@ -20,11 +20,11 @@ import akka.util.Timeout;
 
 import sut.BoundedBuffer.*;
 
-public class RandomTest extends ActorSysTest {
+public class TestRandomBoundedBuffer extends ActorSysTest {
 
 	private int timeoutInSecs = 30;
 	
-	public RandomTest(int param) {
+	public TestRandomBoundedBuffer(int param) {
 		super(param);
 	}  
 	

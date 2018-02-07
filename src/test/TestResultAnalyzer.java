@@ -49,9 +49,11 @@ public class TestResultAnalyzer {
     		return;
     	}
     	
-    	System.out.println("Slicing and depicting the failed execution trace...");
+    	System.out.println("Slicing the failed execution trace and generating a sequence diagram...");
     	
     	generateSequenceDiagram(getSlicedMsgSequence());
+    	
+    	System.out.println("Depicting the failed execution trace...");
     	
 		displaySequenceDiagram();
 	}

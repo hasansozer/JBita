@@ -23,7 +23,7 @@ import java.io.File;
 @RunWith(Parameterized.class)
 public class ActorSysTest {
 
-	protected static final int MAX_TEST_COUNT = 5;
+	protected static final int MAX_TEST_COUNT = 3;
 	protected static final String TRACES_FOLDER = "./test-traces/";
 	protected static final String MSGS_FOLDER = "./test-msgs/";
 	protected static boolean testPassed[] = new boolean[MAX_TEST_COUNT];
@@ -66,15 +66,15 @@ public class ActorSysTest {
  
     @AfterClass
     public static void tearDownClass() {
+    	
     	printTestResults();
     	measureCoverage();
-    	
+    	    	
     	testFailed = true;
     	testPassed[MAX_TEST_COUNT-1] = false;
-    	
-    	if(testFailed) {
-    		TestResultAnalyzer.analyzeMessages(MSGS_FOLDER, testPassed);
-    	}
+    	    	
+    	if(testFailed) 
+    	    TestResultAnalyzer.analyzeMessages(MSGS_FOLDER, testPassed);
     }
 	    
 	@Rule

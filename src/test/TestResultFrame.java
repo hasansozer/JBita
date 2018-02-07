@@ -17,9 +17,8 @@ public class TestResultFrame extends JDialog {
 		BufferedImage image = readImage(umlSeqDiagImgFilename);
 		
 		if(image != null) {
-			ImageIcon imageIcon = new ImageIcon(image);
 			JLabel imageLabel = new JLabel();
-			imageLabel.setIcon(imageIcon);
+			imageLabel.setIcon(new ImageIcon(image));
 			this.getContentPane().add(new JScrollPane(imageLabel));
 			this.pack();
 			this.setLocationRelativeTo(null);
