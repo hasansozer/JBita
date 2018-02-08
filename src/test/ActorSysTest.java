@@ -42,7 +42,15 @@ public class ActorSysTest {
     
 	public ActorSysTest(int param) {
 		index = param;
-	}  
+		createFolderIfNotExists(TRACES_FOLDER);
+		createFolderIfNotExists(MSGS_FOLDER);
+	}
+	
+	private void createFolderIfNotExists(String folderName) {
+		File folder = new File(folderName);
+		if(!folder.exists())
+			folder.mkdir();
+	}
 	
 	@Rule
 	public TestWatcher watchman = new TestWatcher() {

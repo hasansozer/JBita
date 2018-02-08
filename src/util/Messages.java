@@ -3,7 +3,7 @@ package util;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
-import scala.actors.threadpool.Arrays;
+import java.util.Arrays;
 
 public class Messages {
 	
