@@ -39,7 +39,6 @@ public class TestRandomBoundedBuffer extends ActorSysTest {
 		ActorSystem system = ActorSystem.create("BoundedBuffer");
 		
 		Scheduler.setSystem(system);
-		Scheduler.setTraceName("trace-dump" + index + ".txt");
 		RandomScheduler.setSystem(system);
 	
 		ActorRef buffer = system.actorOf(new Props(new UntypedActorFactory() {

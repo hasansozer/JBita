@@ -73,6 +73,30 @@ public class VectorClock {
 		return vcObject;
 	}
 	
-	// lessThanEeq
-	// greaterThanEq
+	public static boolean greaterThanEq(VectorClock v1, VectorClock v2) {
+		
+		if (v1.vc.isEmpty() && v2.vc.isEmpty()) 
+			 return true;
+		
+		Iterator<Entry<String, Integer>> it = v2.vc.entrySet().iterator();
+    	while (it.hasNext()) {
+    		Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+    		if(!v1.vc.containsKey(pair.getKey()) 
+    			|| v1.vc.get(pair.getKey()) < pair.getValue())
+    			return false;
+    	}
+		return true;
+	}
+	
+	public static boolean lessThanEq(VectorClock v1, VectorClock v2) {
+		
+		Iterator<Entry<String, Integer>> it = v1.vc.entrySet().iterator();
+    	while (it.hasNext()) {
+    		Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+    		if(!v2.vc.containsKey(pair.getKey()) 
+    			|| pair.getValue() > v2.vc.get(pair.getKey()))
+    			return false;
+    	}
+	    return true;
+	}
 }
