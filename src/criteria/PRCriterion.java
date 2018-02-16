@@ -21,7 +21,7 @@ public class PRCriterion extends Criterion {
 	public PRCriterion(String name) {
 		super(name);
 	}
-
+	
 	@Override
 	public boolean doesSatisfy(Trace t, int i, int j) {
 		Event ei = t.getEvent(i);
@@ -152,5 +152,13 @@ public class PRCriterion extends Criterion {
 			System.out.println("Error in writing to files for keeping receive evens for actors");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean satisfy(Trace t, int i, int j) {
+		Event ei = t.getEvent(i);
+		Event ej = t.getEvent(j);
+		return (ei.receiverIDStr == ej.receiverIDStr) 
+				&& (!ei.promiseResponse) && (!ej.promiseResponse);			  
 	}
 }

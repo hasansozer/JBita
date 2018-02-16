@@ -7,13 +7,14 @@ public class LogicalMessage {
 
 	public Object message;
 	public EventID creatorID;
+	public EventID originalCreatorID;
 	public VectorClock vc;
 	
 	private static final String LogicalMessagePattern = "(.*LogicalMessage\\()(.*)(,)(EventID\\(.*\\))(,)(Map\\(.*\\))(\\).*)";
 	
 	public LogicalMessage(Object message, EventID creatorID, VectorClock vc) {
 		this.message = message;
-		this.creatorID = creatorID;
+		this.originalCreatorID = this.creatorID = creatorID;
 		this.vc = vc;
 	}
 	
@@ -71,5 +72,14 @@ public class LogicalMessage {
 	        return logicalMessageHashString.hashCode();
 		}
 		return -1;
+	}
+
+	public Object cloneByNewCreatorID(EventID newCreatorID) {
+		LogicalMessage clonedMessage = new LogicalMessage(message, newCreatorID, vc);
+		if (this.originalCreatorID == this.creatorID)
+			clonedMessage.originalCreatorID = this.creatorID;
+		else
+			clonedMessage.originalCreatorID = this.originalCreatorID;
+	    return clonedMessage;
 	}
 }

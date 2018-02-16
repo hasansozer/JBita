@@ -126,7 +126,7 @@ public class Event {
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	protected Object clone() {
 	    Event clonedEvent = new Event(index, message, senderIDStr, receiverIDStr, vc, promiseResponse);
 	    clonedEvent.hashCodeInTrace = hashCodeInTrace;
 	    clonedEvent.cmh = cmh;
@@ -155,5 +155,18 @@ public class Event {
         
 		System.out.println("**** ERROR! Could not parse event: " + eventStr + "to obtain hash code");
         return -1;
+	}
+
+	public Event cloneEvent(EventID messageCreatorID, String newSenderStr, String newReceiverStr) {
+		LogicalMessage logicalMessage = (LogicalMessage)message;
+		Event newEvent = new Event(index, logicalMessage.cloneByNewCreatorID(messageCreatorID), newSenderStr, newReceiverStr, vc, promiseResponse);
+		newEvent.hashCodeInTrace = hashCodeInTrace;
+		newEvent.stop.addAll(stop);
+		newEvent.cmh = cmh;
+		return newEvent;
+	}
+
+	public EventID getCreatorID() {
+		return ((LogicalMessage)message).creatorID;
 	}
 }

@@ -193,4 +193,10 @@ public class Trace {
 		Integer hashCodesArray[] = new Integer[hashCodes.size()];
 		return hashCodes.toArray(hashCodesArray);
 	}
+	
+	public int addEventAndUpdateIndex(Event event) {
+		event.index = completeTrace.size();
+		completeTrace.add(event);
+		return event.index;
+	}
 }

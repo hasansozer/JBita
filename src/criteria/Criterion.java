@@ -18,4 +18,5 @@ public abstract class Criterion {
 	
 	public abstract boolean doesSatisfy(Trace t, int i, int j);
 	public abstract int measureCoverage(ArrayList<String> traceFiles);
+	public abstract boolean satisfy(Trace t, int i, int j);
 }
