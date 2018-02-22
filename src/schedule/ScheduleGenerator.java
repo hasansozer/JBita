@@ -12,7 +12,7 @@ import criteria.*;
 public class ScheduleGenerator {
 	
 	private Criterion criterion = new PRCriterion("PairOfReceives");
-	private HashSet<Pair<Integer, Integer>> coveredPairs = null;
+	HashSet<Pair<Integer,Integer>> coveredPairs;
 	public int maxSchedule = -1;
 	
 	public ArrayList<String> generateSchedules(String name, 
@@ -26,9 +26,13 @@ public class ScheduleGenerator {
 			randomTraces.add(Trace.parse(traceFile,true));
 		}
 		
-		coveredPairs = new HashSet<Pair<Integer, Integer>>();
+		System.out.println("# of random traces: " + randomTraces.size());
+		
+		coveredPairs = new HashSet<Pair<Integer,Integer>>();
 	    
 		updateCoveredPairs(randomTraces,0);
+		
+		System.out.println("# of covered pairs by random traces: " + coveredPairs.size());
 		
 		//---------------------------------
 		ArrayList<Trace> newTraces = new ArrayList<Trace>();
@@ -41,11 +45,14 @@ public class ScheduleGenerator {
 				for(int j = i; j < length; j++) {
 					Event eventI = trace.getEvent(i);
 					Event eventJ = trace.getEvent(j);
-					Pair<Integer,Integer> pair = new Pair<Integer,Integer>(eventJ.hashCodeInTrace, eventI.hashCodeInTrace);
-					
+			        int ei = eventI.hashCodeInTrace;
+			        int ej = eventJ.hashCodeInTrace;
+			        Pair<Integer,Integer> pair = new Pair<Integer,Integer>(ei,ej);
+
 					if(criterion.satisfy(trace, i, j) 
-							&& canBeReordered(i, j, trace) 
-							&& !coveredPairs.contains(pair)) {
+							&& canBeReordered(i, j, trace)
+							&& !coveredPairs.contains(pair))
+						{
 						Trace newTrace = reorderAndGenerate(i, j, trace, i - 1, false);
 		            	newTraces.add(newTrace);
 		            	ArrayList<Trace> tmpList = new ArrayList<Trace>();
@@ -252,10 +259,14 @@ public class ScheduleGenerator {
 	        for (int j = i + 1; j < length; j++) {
 	          Event eventI = trace.getEvent(i);
 	          Event eventJ = trace.getEvent(j);
-	          Pair<Integer, Integer> pair = new Pair<Integer, Integer>(eventI.hashCodeInTrace, eventJ.hashCodeInTrace);
-	          if (criterion.satisfy(trace, i, j) 
-	            && canBeReordered(i, j, trace) &&
-	            !coveredPairs.contains(pair)) {
+	          int ei = eventI.hashCodeInTrace;
+	          int ej = eventJ.hashCodeInTrace;
+	          Pair<Integer,Integer> pair = new Pair<Integer,Integer>(ei,ej);
+	          
+	          if (criterion.satisfy(trace, i, j)
+	        		  && canBeReordered(i, j, trace)
+	        		  && !coveredPairs.contains(pair))
+	            {
 	            coveredPairs.add(pair);
 	            lastUsefulIndex = j;
 	          }

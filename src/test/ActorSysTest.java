@@ -19,12 +19,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 @RunWith(Parameterized.class)
 public class ActorSysTest {
 
 	protected static final int MAX_TEST_COUNT = 3;
 	protected static final String TRACES_FOLDER = "./test-traces/";
+	protected static final String RANDOM_TRACES_FOLDER = "./rand-test-traces/";
 	protected static final String MSGS_FOLDER = "./test-msgs/";
 	protected static boolean testPassed[] = new boolean[MAX_TEST_COUNT];
 	
@@ -42,11 +46,12 @@ public class ActorSysTest {
     
 	public ActorSysTest(int param) {
 		index = param;
+		createFolderIfNotExists(RANDOM_TRACES_FOLDER);
 		createFolderIfNotExists(TRACES_FOLDER);
 		createFolderIfNotExists(MSGS_FOLDER);
 	}
 	
-	private void createFolderIfNotExists(String folderName) {
+	protected static void createFolderIfNotExists(String folderName) {
 		File folder = new File(folderName);
 		if(!folder.exists())
 			folder.mkdir();
@@ -77,7 +82,8 @@ public class ActorSysTest {
     	
     	printTestResults();
     	measureCoverage();
-    	    	
+    	    
+    	// TODO: Just for testing the debugging support
     	testFailed = true;
     	testPassed[MAX_TEST_COUNT-1] = false;
     	    	
@@ -97,23 +103,45 @@ public class ActorSysTest {
         	System.out.println("Test Case #" + index + " ended..."); 
         	Scheduler.finish(TRACES_FOLDER + "trace-test" + index + ".txt");
         	Scheduler.logger.outputMessages(MSGS_FOLDER + "trace-test" + index + ".txt");
+        	copyFolder(TRACES_FOLDER, RANDOM_TRACES_FOLDER);
         }
     };
     
-    private static void printTestResults() {
+    protected static void printTestResults() {
     	System.out.println("Test Results\n============");
     	for (int i = 0; i < MAX_TEST_COUNT; i++) {
     		System.out.println("Test #" + i + "\t\t: " + (testPassed[i]? "passed" : "failed"));
     	}
     }
     
-    private static void measureCoverage() {
-    	File folder = new File(TRACES_FOLDER);
+    protected static void measureCoverage() {
+    	Criterion cov = new PRCriterion("PairOfReceives");
+    	cov.measureCoverage(getTraceFiles(TRACES_FOLDER));
+    }
+    
+    protected static ArrayList<String> getTraceFiles(String folderName) {
+    	File folder = new File(folderName);
     	File[] listOfFiles = folder.listFiles();
     	ArrayList<String> traceFiles = new ArrayList<String>(); 
     	for(File file : listOfFiles)
     		traceFiles.add(file.getPath());
-    	Criterion cov = new PRCriterion("PairOfReceives");
-    	cov.measureCoverage(traceFiles);
+    	return traceFiles;
+    }
+    
+    protected static void copyFolder(String src, String dest) {
+    	try {
+    		File srcDir = new File(src);
+			File destDir = new File(dest);
+    		String files[] = srcDir.list();
+    		for (String file : files) {
+    			File srcFile = new File(srcDir, file);
+    			File destFile = new File(destDir, file);
+        		Files.copy(srcFile.toPath(), 
+        				destFile.toPath(), 
+        				StandardCopyOption.REPLACE_EXISTING);
+    		}
+    	} catch (IOException e) {
+    		System.out.println("Error while copying random trace files: " + e);
+    	}
     }
 }

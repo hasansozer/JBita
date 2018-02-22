@@ -40,7 +40,6 @@ public class PRCriterion extends Criterion {
 	    System.out.println("---Total # of actors: " + actorFiles.size());
 
 	    int totalCoverageValue = 0;
-	    HashMap<Integer,Integer> intervalCoverage = new HashMap<Integer,Integer>();
 	    HashMap<String,Integer> actorsCoverageValue = new HashMap<String,Integer>();
 	    HashMap<Integer,Integer> coveredPairs = new HashMap<Integer,Integer>();
 	    HashMap<Integer,Integer> notCoveredPairs = new HashMap<Integer,Integer>();
@@ -57,10 +56,8 @@ public class PRCriterion extends Criterion {
 	    		
 	    		coveredPairs.clear();
 	  	      	notCoveredPairs.clear();
-	  	      	int traceCounter = 0;
 	  	      	
 	  	      	for(String file: files) {	  	      		
-	  	      		traceCounter++;
 	  	      		ArrayList<String> hashLines = new ArrayList<String>();
 	  	      		BufferedReader br = new BufferedReader(new FileReader(file));
 	  	  	        while ((line = br.readLine()) != null) {
@@ -108,7 +105,7 @@ public class PRCriterion extends Criterion {
 			
 			for(String traceFile: traceFiles) {
 				
-  	      		//System.out.println("Analayzing trace file:" + traceFile);
+  	      		//System.out.println("Analyzing trace file:" + traceFile);
 	  	      	
 				Trace trace = Trace.parse(traceFile, true);
 				ArrayList<Integer> traceHashCodes = new ArrayList<Integer>();
