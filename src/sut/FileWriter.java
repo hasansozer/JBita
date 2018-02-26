@@ -4,10 +4,16 @@ import java.util.ArrayList;
 
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
+import akka.dispatch.Await;
+import akka.dispatch.Future;
+import akka.pattern.Patterns;
+import akka.util.Duration;
+import akka.util.Timeout;
 
 public class FileWriter {
 	
-	static class Execute {}
+	public static class Execute {}
+	public static class CheckForError {}
 	
 	static class ActionDone {}
 	
@@ -17,8 +23,8 @@ public class FileWriter {
 	
 	static class Error {}
 	
-	static class CheckForError {}
-	
+	static class GetUnlflushedContent {}
+			
 	static class Write {
 		private final String element;
 		
@@ -27,18 +33,6 @@ public class FileWriter {
 		}
 		
 		public String getElement() {
-			return element;
-		}
-	}
-	
-	static class Result {
-		private final boolean element;
-		
-		public Result(boolean element) {
-			this.element = element;
-		}
-		
-		public boolean getElement() {
 			return element;
 		}
 	}
@@ -55,6 +49,8 @@ public class FileWriter {
 				System.out.println(results);
 				results.clear();
 				getSender().tell(new Flushed(), getSelf());
+			} else if(message instanceof GetUnlflushedContent) {
+				getSender().tell(new String(""+results), getSelf());			
 			} else {
 				unhandled(message);
 			}
@@ -110,7 +106,17 @@ public class FileWriter {
 			} else if(message instanceof Error) {
 				error = true;
 			} else if(message instanceof CheckForError) {
-				getSender().tell(new Result(flushed && error), getSelf());
+				//getSender().tell(new Result(flushed && error), getSelf());
+				String result = "" + (flushed && error);
+				
+				Timeout timeout = new Timeout(Duration.create(20, "seconds"));
+				Future<Object> future = Patterns.ask(writer, new GetUnlflushedContent(), timeout);
+				try {
+					String e = (String) Await.result(future, timeout.duration());				
+					getSender().tell(result+e, getSelf());
+				} catch (Exception e) {
+					System.out.println("Action timeout waiting for terminator...");
+				}
 			} else {
 				unhandled(message);
 			}	

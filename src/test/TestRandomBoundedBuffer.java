@@ -21,8 +21,6 @@ import akka.util.Timeout;
 import sut.BoundedBuffer.*;
 
 public class TestRandomBoundedBuffer extends ActorSysTest {
-
-	private int timeoutInSecs = 30;
 	
 	public TestRandomBoundedBuffer(int param) {
 		super(param);
@@ -35,7 +33,7 @@ public class TestRandomBoundedBuffer extends ActorSysTest {
 		final int noOfPutMessages = 2;
 		final int noOfGetMessages = 2;
 		
-		Timeout timeout = new Timeout(Duration.create(timeoutInSecs, "seconds"));
+		Timeout timeout = new Timeout(Duration.create(TIMEOUT_SEC, "seconds"));
 		ActorSystem system = ActorSystem.create("BoundedBuffer");
 		
 		Scheduler.setSystem(system);

@@ -26,6 +26,7 @@ import java.nio.file.StandardCopyOption;
 @RunWith(Parameterized.class)
 public class ActorSysTest {
 
+	protected static final int TIMEOUT_SEC = 30;
 	protected static final int MAX_TEST_COUNT = 3;
 	protected static final String TRACES_FOLDER = "./test-traces/";
 	protected static final String RANDOM_TRACES_FOLDER = "./rand-test-traces/";
