@@ -14,18 +14,13 @@ public class FileWriter {
 	
 	public static class Execute {}
 	public static class CheckForError {}
-	
-	static class ActionDone {}
-	
-	static class Flush {}
-	
-	static class Flushed {}
-	
-	static class Error {}
-	
-	static class GetUnlflushedContent {}
+	public static class ActionDone {}
+	public static class Flush {}
+	public static class Flushed {}
+	public static class Error {}
+	public static class GetUnlflushedContent {}
 			
-	static class Write {
+	public static class Write {
 		private final String element;
 		
 		public Write(String element) {

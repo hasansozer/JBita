@@ -7,3 +7,4 @@
 "$h" -> "writer": "sut.FileWriter$GetUnlflushedContent"
 "writer" -> "$h": "java.lang.String"
 "$f" -> "terminator": "sut.FileWriter$Execute"
+"terminator" -> "$g": "java.lang.String"

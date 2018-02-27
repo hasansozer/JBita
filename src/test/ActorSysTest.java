@@ -83,11 +83,7 @@ public class ActorSysTest {
     	
     	printTestResults();
     	measureCoverage();
-    	    
-    	// TODO: Just for testing the debugging support
-    	testFailed = true;
-    	testPassed[MAX_TEST_COUNT-1] = false;
-    	    	
+ 
     	if(testFailed) 
     	    TestResultAnalyzer.analyzeMessages(MSGS_FOLDER, testPassed);
     }
