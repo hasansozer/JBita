@@ -51,7 +51,7 @@ public class TestRandomFileWriter extends ActorSysTest {
 		      }
 		    }), "action");
 		
-		Patterns.ask(terminator, new Execute(), timeout);
+		Patterns.ask(action, new Execute(), timeout);
 		Future<Object> future = Patterns.ask(terminator, new CheckForError(), timeout);	
 		try {
 			String str = (String) Await.result(future, timeout.duration());
