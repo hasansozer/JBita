@@ -31,7 +31,7 @@ public class ScheduleGenerator {
 		coveredPairs = new HashSet<Pair<Integer,Integer>>();
 	    
 		updateCoveredPairs(randomTraces,0);
-		
+    			
 		System.out.println("# of covered pairs by random traces: " + coveredPairs.size());
 		
 		//---------------------------------

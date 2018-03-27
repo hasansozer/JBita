@@ -26,7 +26,7 @@ public class PRCriterion extends Criterion {
 	public boolean doesSatisfy(Trace t, int i, int j) {
 		Event ei = t.getEvent(i);
 		Event ej = t.getEvent(j);
-		return ei.receiverIDStr == ej.receiverIDStr;
+		return ei.receiverIDStr.equals(ej.receiverIDStr);
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class PRCriterion extends Criterion {
 	public boolean satisfy(Trace t, int i, int j) {
 		Event ei = t.getEvent(i);
 		Event ej = t.getEvent(j);
-		return (ei.receiverIDStr == ej.receiverIDStr) 
+		return (ei.receiverIDStr.equals(ej.receiverIDStr)) 
 				&& (!ei.promiseResponse) && (!ej.promiseResponse);			  
 	}
 }
