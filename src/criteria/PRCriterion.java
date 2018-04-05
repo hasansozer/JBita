@@ -1,7 +1,6 @@
 package criteria;
 
 import schedule.Trace;
-import util.LoggedMessage;
 import schedule.Event;
 import schedule.LogicalActor;
 

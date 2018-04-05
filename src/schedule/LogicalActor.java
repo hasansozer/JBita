@@ -15,8 +15,6 @@ public class LogicalActor {
 	public String toString() {
 		return "LogicalActor(" + creatorID + "," + objectType + ")";
 	}
-
-	private static final String LogicalActorPattern = "(.*LogicalActor\\()(EventID\\(.*\\))(,)(.*)(\\))";
 	
 	public LogicalActor(EventID creatorID, String actorObjectClass) {
 		objectType = actorObjectClass;
