@@ -1,17 +1,13 @@
 package schedule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-
-import util.Constants;
-import util.Pair;
+import java.util.*;
+import util.*;
 import criteria.*;
 
 public class ScheduleGenerator {
 	
 	private Criterion criterion = new PRCriterion("PairOfReceives");
-	HashSet<Pair<Integer,Integer>> coveredPairs;
+	HashMap<Integer,Integer> coveredPairs;
 	public int maxSchedule = -1;
 	
 	public ArrayList<String> generateSchedules(String name, 
@@ -19,23 +15,23 @@ public class ScheduleGenerator {
 			String generatedSchedulesPath) {
 		
 		System.out.println("Genarting schedule...");
-
-		ArrayList<Trace> randomTraces = new ArrayList<Trace>(); 
+				
+    	ArrayList<Trace> randomTraces = new ArrayList<Trace>(); 
 		for(String traceFile: randomTracesPath) {
 			randomTraces.add(Trace.parse(traceFile,true));
 		}
 		
 		System.out.println("# of random traces: " + randomTraces.size());
 		
-		coveredPairs = new HashSet<Pair<Integer,Integer>>();
-	    
-		updateCoveredPairs(randomTraces,0);
-    			
-		System.out.println("# of covered pairs by random traces: " + coveredPairs.size());
-		
-		//---------------------------------
 		ArrayList<Trace> newTraces = new ArrayList<Trace>();
 		int traceCount = 0;
+	
+		coveredPairs = new HashMap<Integer,Integer>();
+	    
+		//---------------------------------
+		//updateCoveredPairs(randomTraces,0);		
+		//System.out.println("# of covered pairs by random traces: " + coveredPairs.size());
+		//---------------------------------
 		
 		for(Trace trace: randomTraces){
 			int length = trace.size();
@@ -46,11 +42,11 @@ public class ScheduleGenerator {
 					Event eventJ = trace.getEvent(j);
 			        int ei = eventI.hashCodeInTrace;
 			        int ej = eventJ.hashCodeInTrace;
-			        Pair<Integer,Integer> pair = new Pair<Integer,Integer>(ei,ej);
 
 					if(criterion.satisfy(trace, i, j) 
 							&& canBeReordered(i, j, trace)
-							&& !coveredPairs.contains(pair))
+							&& !(coveredPairs.containsKey(ei) && coveredPairs.get(ei) == ej)
+							)
 						{
 						Trace newTrace = reorderAndGenerate(i, j, trace, i - 1, false);
 		            	newTraces.add(newTrace);
@@ -123,7 +119,7 @@ public class ScheduleGenerator {
 
 	private void updateCreatorIndex(HashMap<Integer, Integer> indexMap, Trace trace) {
 		ArrayList<Event> updatedGeneratedTrace = new ArrayList<Event>();
-		ArrayList<Event> unUpdatedGeneratedTrace = (ArrayList<Event>) trace.getTrace();
+		List<Event> unUpdatedGeneratedTrace = (List<Event>) trace.getTrace();
 		for(Event event : unUpdatedGeneratedTrace) {
 			EventID msgCreatorID = ((LogicalMessage)event.message).creatorID;
 			EventID newMsgCreatorID = new EventID(msgCreatorID.creatorIndex, msgCreatorID.seqNum);
@@ -260,13 +256,12 @@ public class ScheduleGenerator {
 	          Event eventJ = trace.getEvent(j);
 	          int ei = eventI.hashCodeInTrace;
 	          int ej = eventJ.hashCodeInTrace;
-	          Pair<Integer,Integer> pair = new Pair<Integer,Integer>(ei,ej);
 	          
 	          if (criterion.satisfy(trace, i, j)
 	        		  && canBeReordered(i, j, trace)
-	        		  && !coveredPairs.contains(pair))
+	        		  && !(coveredPairs.containsKey(ei) && coveredPairs.get(ei) == ej))
 	            {
-	            coveredPairs.add(pair);
+	            coveredPairs.put(ei,ej);
 	            lastUsefulIndex = j;
 	          }
 	        }
