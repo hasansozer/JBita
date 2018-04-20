@@ -27,19 +27,24 @@ import java.nio.file.StandardCopyOption;
 public class ActorSysTest {
 
 	protected static final int TIMEOUT_SEC = 30;
-	protected static final int MAX_TEST_COUNT = 10; // TODO: to be updated based on generated schedules
+	protected static final int MAX_RANDOM_TEST_COUNT = 3;
 	protected static final String TRACES_FOLDER = "./test-traces/";
 	protected static final String RANDOM_TRACES_FOLDER = "./rand-test-traces/";
 	protected static final String MSGS_FOLDER = "./test-msgs/";
-	protected static boolean testPassed[] = new boolean[MAX_TEST_COUNT];
 	
 	protected int index;
+	protected static int testCount;
+	protected static boolean testPassed[]; 
 	protected static boolean testFailed; 
 	
 	@Parameters  
     public static Collection<Object[]> generateParams() {  
+    	
+    	testCount = MAX_RANDOM_TEST_COUNT;
+    	testPassed = new boolean[testCount];
+    	
          List<Object[]> params = new ArrayList<Object[]>();  
-         for (int i = 0; i < MAX_TEST_COUNT; i++) {  
+         for (int i = 0; i < testCount; i++) {  
               params.add(new Object[] {i});  
          }  
          return params;  
@@ -47,12 +52,12 @@ public class ActorSysTest {
     
 	public ActorSysTest(int param) {
 		index = param;
-		createFolderIfNotExists(RANDOM_TRACES_FOLDER);
-		createFolderIfNotExists(TRACES_FOLDER);
-		createFolderIfNotExists(MSGS_FOLDER);
+		createFolder(RANDOM_TRACES_FOLDER);
+		createFolder(TRACES_FOLDER);
+		createFolder(MSGS_FOLDER);
 	}
 	
-	protected static void createFolderIfNotExists(String folderName) {
+	protected static void createFolder(String folderName) {
 		File folder = new File(folderName);
 		if(!folder.exists())
 			folder.mkdir();
@@ -106,7 +111,7 @@ public class ActorSysTest {
     
     protected static void printTestResults() {
     	System.out.println("Test Results\n============");
-    	for (int i = 0; i < MAX_TEST_COUNT; i++) {
+    	for (int i = 0; i < testCount; i++) {
     		System.out.println("Test #" + i + "\t\t: " + (testPassed[i]? "passed" : "failed"));
     	}
     }

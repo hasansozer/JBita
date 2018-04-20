@@ -1,2 +1,2 @@
-/test-msgs/
-/test-traces/
+.classpath
+*.txt

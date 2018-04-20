@@ -24,8 +24,8 @@ public class ActorSysGenTest extends ActorSysTest{
 	} 
 	
 	protected static void generateSchedules() {
-		createFolderIfNotExists(GEN_TRACES_FOLDER);
-		createFolderIfNotExists(GEN_MSGS_FOLDER);		
+		createFolder(GEN_TRACES_FOLDER);
+		createFolder(GEN_MSGS_FOLDER);		
     	ArrayList<String> traceFiles = getTraceFiles(RANDOM_TRACES_FOLDER); 
     	if(traceFiles.isEmpty()) 
     		Assert.fail("No trace files found. First, perform random testing to obtain a set of trace files...");    	
@@ -39,8 +39,11 @@ public class ActorSysGenTest extends ActorSysTest{
     	
     	generateSchedules();
     	
+    	testCount = schedules.size();
+    	testPassed = new boolean[testCount];
+    	
         List<Object[]> params = new ArrayList<Object[]>();  
-        for (int i = 0; i < schedules.size(); i++) {  
+        for (int i = 0; i < testCount; i++) {  
              params.add(new Object[] {i});  
         }  
         return params;  

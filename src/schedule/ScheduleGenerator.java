@@ -8,7 +8,11 @@ public class ScheduleGenerator {
 	
 	private Criterion criterion = new PRCriterion("PairOfReceives");
 	HashMap<Integer,Integer> coveredPairs;
-	public int maxSchedule = -1;
+	private int maxSchedule = -1;
+	
+	public void setMaxSchedule(int limit) {
+		maxSchedule = limit;
+	}
 	
 	public ArrayList<String> generateSchedules(String name, 
 			ArrayList<String> randomTracesPath, 
