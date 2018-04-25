@@ -1,7 +1,7 @@
 .classpath
 *.txt
-gen-test-msgs/*
-gen-test-traces/*
-rand-test-traces/*
-test-msgs/*
-test-traces/*
+/gen-test-msgs/*
+/gen-test-traces/*
+/rand-test-traces/*
+/test-msgs/*
+/test-traces/*
