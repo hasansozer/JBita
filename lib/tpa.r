@@ -177,18 +177,4 @@ count <- count + le.flag[i]
 }
 return(count)
 }
-    
-   
-poset1 <- matrix(c(1,0,1,0,0,1,0,1,0,0,1,0,0,0,0,1),byrow=TRUE,ncol=4)
-poset2 <- matrix(c(1,0,1,1,1,1,1,1, 0,1,0,1,0,1,1,1, 0,0,1,0,1,1,0,1,0,0,0,1,0,1,1,1, 0,0,0,0,1,0,0,0, 0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1, 0,0,0,0,0,0,0,1),byrow=TRUE,ncol=8)
-poset3 <- t(matrix(c(1,1,0,1,0,1,0,1,0,0,1,1,0,0,0,1),nrow=4))
-poset4 <- t(matrix(c(1,0,1,1,1,1, 0,1,0,1,1,1, 0,0,1,0,1,0,0,0,0,1,1,1, 0,0,0,0,1,0, 0,0,0,0,0,1),nrow=6))
-poset5 <- matrix(c(1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1),byrow=TRUE,ncol=4)
 
-print("Results for poset1")
-print(brute.force.count.linear.extensions(poset1))
-print(tpa.approximation(poset1,1,0.1))
-
-print("Results for poset5")
-print(brute.force.count.linear.extensions(poset5))
-print(tpa.approximation(poset5,1,0.1))
