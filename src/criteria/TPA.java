@@ -16,13 +16,10 @@ public class TPA {
 	private static String posetMatrix = null;
 	
 	public static void main(String args[]) {
-		
-		/*
-		1,0,1,0
-		0,1,0,1
-		0,0,1,0
-		0,0,0,1
-		 */
+		/* 1,0,1,0
+		 * 0,1,0,1
+		 * 0,0,1,0
+		 * 0,0,0,1	*/
 		boolean [][] depmatrix = new boolean[4][4];
 		depmatrix[0][0] = true;
 		depmatrix[0][2] = true;
@@ -32,8 +29,8 @@ public class TPA {
 		depmatrix[3][3] = true;		
 		
 		setup(depmatrix);
-		getBruteForceCount();
-		getApproximation(1.0, 0.1); 
+		System.out.println(getBruteForceCount());
+		System.out.println(getApproximation(0.1, 0.1)); 
 	}
 	
 	public static void setup(boolean dependencies[][]) {
@@ -41,17 +38,19 @@ public class TPA {
 		posetMatrix = getPosetMatrix(dependencies);
 	}
 	
-	public static void getBruteForceCount() {
+	public static int getBruteForceCount() {
 		String command = posetMatrix
 					+ "print(brute.force.count.linear.extensions(poset))\n";
-		runScriptandRemove(createScript(command));
+		String output = runScriptandRemove(createScript(command));
+		return Integer.parseInt(output.substring(output.indexOf(" ")+1));
 	}
 	
-	public static void getApproximation(double epsilon, double delta) {
+	public static double getApproximation(double epsilon, double delta) {
 		String command = posetMatrix
 				+ "print(tpa.approximation(poset,"
 				+ epsilon + "," + delta + "))\n";
-		runScriptandRemove(createScript(command));
+		String output = runScriptandRemove(createScript(command));
+		return Double.parseDouble(output.substring(output.indexOf(" ")+1));
 	}
 	
 	private static String getPosetMatrix(boolean dependencies[][]) {
@@ -80,7 +79,8 @@ public class TPA {
 		return tmpScriptPath;
 	}
 
-	private static void runScriptandRemove(Path tmpScriptPath) {
+	private static String runScriptandRemove(Path tmpScriptPath) {
+		String output = "";
 		try {
 			Process process = new ProcessBuilder(R_BIN_FOLDER + "Rscript.exe",
 					tmpScriptPath.toString()).start();
@@ -89,13 +89,14 @@ public class TPA {
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader br = new BufferedReader(isr);
 			String line;
-
+			
 			while ((line = br.readLine()) != null) {
-				System.out.println(line);
+				output = line;
 			}
 			Files.delete(tmpScriptPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return output;
 	}
 }
